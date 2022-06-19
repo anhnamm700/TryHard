@@ -1,0 +1,15 @@
+.wrapper {
+    position: relative;
+    width: 200px;
+    margin-right: 50px;
+
+    .input {
+        width: 100%;
+    }
+
+    .icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
