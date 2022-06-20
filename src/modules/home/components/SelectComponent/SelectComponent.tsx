@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface Props {
     title: string,
     data: any[],
     type: string,
     search?: boolean,
+    id?: any,
+    selected?: boolean,
     onChange: (e: any, type: string) => any
 }
 
 const SelecComponent = (props: Props) => {
-    const { title, data, type, search, onChange } = props;
-
-
+    const { id, title, data, type, selected, onChange } = props;
+    
     return (
-        <select name="" id="" onChange={(e) => onChange(e, type)}>
-            <option selected={!search ? true : false} disabled>{title}</option>
+        <select name="" id={id} onChange={(e) => onChange(e, type)}>
+            <option selected={selected ? false : true} disabled>{title}</option>
 
             {
                 data?.map((item: any, index: number) => (
@@ -25,4 +26,4 @@ const SelecComponent = (props: Props) => {
     );
 }
 
-export default SelecComponent;
+export default memo(SelecComponent);

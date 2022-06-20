@@ -6,8 +6,6 @@ import SelectComponent from '../SelectComponent';
 import ButtonComponent from '../ButtonComponent';
 
 
-
-
 interface Props {   
     id: any,
     status: string,
@@ -16,12 +14,13 @@ interface Props {
     currency: string,
     total: number,
     invoice: string,
+    selected?: boolean,
     onDeleteClick: (id: string) => void,
     onChange: (e: any, id: any) => void
 }
 
 const TableComponent = (props: Props) => {
-    const { id, status, date, client, currency, total, invoice, onDeleteClick, onChange } = props;
+    const { id, status, date, client, currency, total, invoice, selected, onDeleteClick, onChange } = props;
 
 
     return (
@@ -38,7 +37,9 @@ const TableComponent = (props: Props) => {
                 <SelectComponent
                     title='View Detail'
                     data={['Xem chi tiết', 'Khác']}
+                    selected={selected}
                     type=''
+                    id={id}
                     onChange={(e) => onChange(e, id)}
                 />
             </td>

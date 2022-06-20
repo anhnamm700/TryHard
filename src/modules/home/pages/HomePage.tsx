@@ -4,22 +4,33 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import FilterComponent from '../components/FilterComponent';
 import TableComponent from '../components/TableComponent';
+import PanigationComponent from '../components/PanigationComponent';
 import { DeleteComponent, InfoComponent } from '../components/ModalComponent';
 import { addRow, searchData, deleteRow } from '../../../redux/slice';
 import './style.scss';
 
 const HomePage = () => {
+ 
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [search, setSearch] = React.useState<boolean>(false);
   const [modal, setModal] = React.useState<boolean>(false);
   const [info, setInfo] = React.useState<boolean>(false);
   const [id, setId] = React.useState<string>('');
+  const [target, setTarget] = React.useState<any>('');
   const [value, setValue] = React.useState<object>({});
 
   const data = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
   const { transactions, searchs } = data;
+
+  const perPage = 6;
+  const totalRow = search ? searchs.length : transactions.length;
+  let currentPage = 1;
+
+  const totalPage = Math.ceil(totalRow / perPage);
+  
   
 
   React.useEffect(() => {
@@ -57,31 +68,30 @@ const HomePage = () => {
     setModal(true);
   }
 
-//   transactions.forEach((item: any) => {
-//     console.log(item.id)
-//     console.log('---')
-    
-// })
-
-  const handleChange = (e: any, id: any) => {
+  const handleChange = React.useCallback((e: any, id: any) => {
     if (e.target.value === 'Xem chi tiết') {
-        setInfo(true);
-        setId(id);
-          
+      setInfo(true);
+      setId(id);
+      setTarget(id);
     }
-  }
+  }, []);
 
   React.useEffect(() => {
     if (id) {
       setLoading(true);
 
-      transactions?.forEach((item: any) => (
-        setValue(item)
-      ))
+      transactions?.forEach((item: any) => {
+        if (item.id === id) {
+          setValue(item)
+        }
+      })
+
+      // setValue(transactions[id]);1
 
       setLoading(false);
     }
   }, [id]);
+
 
   const handleConfirmDelete = () => {
     if (id) {
@@ -89,6 +99,18 @@ const HomePage = () => {
       setModal(false);
     }
   }
+
+  const handlePanigate = (e: any) => {
+    currentPage = e.target.textContent
+    console.log(currentPage);
+  }
+
+  // React.useEffect(() => {
+  //   console.log(currentPage);
+    
+  // }, [currentPage]);
+
+  
 
   return (
     <div>
@@ -123,6 +145,7 @@ const HomePage = () => {
                 date={item.createdAt}
                 client={item.client}
                 currency={item.currentcy}
+                selected={(target === item.id) ? true : false}
                 total={item.total}
                 invoice={item.invoice}
                 onDeleteClick={handleDeleteClick}
@@ -132,6 +155,13 @@ const HomePage = () => {
           }
         </tbody>
       </table>
+
+      <PanigationComponent
+        totalPage={totalPage}
+        perPage={perPage}
+        totalRow={totalRow}
+        onClick={handlePanigate}
+      />
 
       {
         modal && 
@@ -149,7 +179,10 @@ const HomePage = () => {
         <InfoComponent
           show={info}
           data={value}
-          onClose={() => setInfo(false)}
+          onClose={() => {
+            setInfo(false)
+            setTarget('');
+          }}
         />
       }
       

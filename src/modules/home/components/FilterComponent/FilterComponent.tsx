@@ -61,12 +61,12 @@ const FilterComponent = (props: Props) => {
 
 
     React.useEffect(() => {
-        if (!status && !client && !from && !to && !invoice) {
+        if (!status && !client && !from && !to && !invoice && !search) {
             setDisabled(true);
         } else {
             setDisabled(false);
         }
-    }, [status, client, from, to, invoice]);
+    }, [status, client, from, to, invoice, search]);
 
     const handleSelectChange = (e: any, type: string) => {
         const value = e.target.value;
@@ -87,10 +87,11 @@ const FilterComponent = (props: Props) => {
             setFrom('');
             setTo('');
             setInvoice('');
+            setDisabled(true);
+            setClient('');
+            setStatus('');
         }
     }, [search]);
-
-    
 
 
     return (
@@ -100,6 +101,7 @@ const FilterComponent = (props: Props) => {
                 data={statuss}
                 type="status"
                 search={search}
+                selected={!!status}
                 onChange={handleSelectChange}
             />
 
@@ -108,6 +110,7 @@ const FilterComponent = (props: Props) => {
                 data={clients}
                 type="client"
                 search={search}
+                selected={!!client}
                 onChange={handleSelectChange}
             />
 

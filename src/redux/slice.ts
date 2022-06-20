@@ -28,9 +28,6 @@ const tableSlice = createSlice({
         },
         searchData: (state: any, action: any) => {
             const { status, client, from, to, invoice } = action.payload;
-
-            console.log(action.payload);
-            
             
             const data: any = state.transactions.filter((item: any) => {
                 
@@ -263,23 +260,18 @@ const tableSlice = createSlice({
                 }
             })
 
-            
-            // // action.payload.transactions = [...state.transactions];
-            // console.log(data);
             state.searchs = [...data];
             
         },
         deleteRow: (state: any, action: any) => {
+
+            console.log(action.payload);
+            
             const id = Number(action.payload);
             
-            // state.transactions.forEach((item: any) => (
-            //     console.log(item.id)
-            // ));
+            state.transactions.splice(id, 1);
+            // state.transactions.slice(id - 1, id);
             
-            state.transactions.splice(id - 1, 1);
-            
-            
-            // state.transactions = [...state.transactions, ];
             state.transactions = [...state.transactions];
             
         }
