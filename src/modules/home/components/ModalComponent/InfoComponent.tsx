@@ -3,11 +3,12 @@ import { Modal, Button } from 'react-bootstrap';
 interface Props {
     show: boolean,
     data: any,
-    onClose: () => void
+    onClose: () => void,
+    onUpdate: (id: any) => void
 }
 
 const InfoComponent = (props: Props) => {
-    const { show, data, onClose } = props;
+    const { show, data, onClose, onUpdate } = props;
 
     const { id, status, client, createdAt, invoice, currentcy, total } = data;
 
@@ -30,6 +31,10 @@ const InfoComponent = (props: Props) => {
                 <Modal.Footer>
                 <Button variant="secondary" onClick={onClose}>
                     Đóng
+                </Button>
+
+                <Button variant="primary" onClick={() => onUpdate(id)}>
+                    Cập nhật
                 </Button>
                 </Modal.Footer>
             </Modal>

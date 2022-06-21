@@ -90,6 +90,7 @@ const FilterComponent = (props: Props) => {
             setDisabled(true);
             setClient('');
             setStatus('');
+            setInput('');
         }
     }, [search]);
 

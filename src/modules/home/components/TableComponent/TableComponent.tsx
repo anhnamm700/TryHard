@@ -23,16 +23,33 @@ interface Props {
 const TableComponent = (props: Props) => {
     const { id, status, index, date, client, currency, total, invoice, selected, onDeleteClick, onChange } = props;
 
+    function timeConverter(UNIX_timestamp: number){
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var time = date + ' ' + month + ' ' + year;
+
+        return time;
+      }
+
+      const fomatMoney = (currency: number, type: string) => {
+        return (currency).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        }); 
+      }
 
     return (
         <tr>
             <td className={index}>{status}</td>
             <td>
-                <Moment format='MMMM Do YYYY'>{date}</Moment>
+                <Moment format='MMMM Do YYYY'>{timeConverter(date)}</Moment>
             </td>
             <td>{client}</td>
             <td>{currency}</td>
-            <td>{total}</td>
+            <td>{fomatMoney(total, currency).slice(1, fomatMoney(total, currency).length)}</td>
             <td>{invoice}</td>
             <td>
                 <SelectComponent

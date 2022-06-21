@@ -27,9 +27,13 @@ const tableSlice = createSlice({
             state.transactions = [...state.transactions, ...action.payload]
         },
         searchData: (state: any, action: any) => {
-            const { status, client, from, to, invoice } = action.payload;
+            const from = action.payload.from / 1000;
+            const to = action.payload.to / 1000;
+
+            const { status, client, invoice } = action.payload;
             
             const data: any = state.transactions.filter((item: any) => {
+                
                 
                 if (status || client || from || to || invoice) {
                     if (status && client && from && to && invoice) {

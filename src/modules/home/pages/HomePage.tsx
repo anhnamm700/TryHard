@@ -19,7 +19,7 @@ const HomePage = () => {
   const [id, setId] = React.useState<string>('');
   const [target, setTarget] = React.useState<any>('');
   const [value, setValue] = React.useState<object>({});
-  const paniRef = React.useRef<any>(null);
+  const [update, setUpdate] = React.useState(null);
 
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
@@ -31,9 +31,6 @@ const HomePage = () => {
   
   const perPage = 6;
   const totalRow = search ? searchs.length : transactions.length;
-  paniRef.current = {
-    page: 1
-  }
   
   const totalPage = Math.ceil(totalRow / perPage);
 
@@ -43,11 +40,6 @@ const HomePage = () => {
 
   const panigationSearchPosts = [...searchs]?.splice(currentPageNumber, perPage);
   const panigationAllPosts = [...transactions].splice(currentPageNumber, perPage)
-  
-  // console.log(currentPageNumber + ' == ' + perPage);
-  // console.log([...transactions].splice(0, 6));
-  
-  
 
   React.useEffect(() => {
     setLoading(true);
@@ -57,7 +49,7 @@ const HomePage = () => {
       .then(res => dispatch(addRow(res.data)))
 
     setLoading(false);
-  }, [dispatch]);
+  }, [dispatch, update]);
 
   const handleDataSearch = (status: string, client: string, from: number, to: number, invoice: string) => {
     if (status || client || from || to || invoice) {
@@ -115,6 +107,10 @@ const HomePage = () => {
 
   const handlePanigate = (e: any) => {
     setCurrentPage(Number(e.target.textContent));
+  }
+
+  const handleUpadteRow = (id: any) => {
+    setUpdate(id);
   }
 
   return (
@@ -189,6 +185,7 @@ const HomePage = () => {
             setInfo(false)
             setTarget('');
           }}
+          onUpdate={handleUpadteRow}
         />
       }
       
