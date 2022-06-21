@@ -68,7 +68,6 @@ const HomePage = () => {
         to,
         invoice
       }
-      
   
       dispatch(searchData(searchDatas));
       setSearch(true);
@@ -102,18 +101,16 @@ const HomePage = () => {
         }
       })
 
-      // setValue(transactions[id]);1
-
       setLoading(false);
     }
   }, [id]);
 
 
   const handleConfirmDelete = () => {
-    if (id) {
+    // if (id || id === 0) {
       dispatch(deleteRow(id));
       setModal(false);
-    }
+    // }
   }
 
   const handlePanigate = (e: any) => {
@@ -149,6 +146,7 @@ const HomePage = () => {
               <TableComponent
                 key={index}
                 id={item.id}
+                index={index}
                 status={item.status}
                 date={item.createdAt}
                 client={item.client}

@@ -8,6 +8,7 @@ import ButtonComponent from '../ButtonComponent';
 
 interface Props {   
     id: any,
+    index: any,
     status: string,
     date: number,
     client: string,
@@ -20,12 +21,12 @@ interface Props {
 }
 
 const TableComponent = (props: Props) => {
-    const { id, status, date, client, currency, total, invoice, selected, onDeleteClick, onChange } = props;
+    const { id, status, index, date, client, currency, total, invoice, selected, onDeleteClick, onChange } = props;
 
 
     return (
         <tr>
-            <td className={id}>{status}</td>
+            <td className={index}>{status}</td>
             <td>
                 <Moment format='MMMM Do YYYY'>{date}</Moment>
             </td>
@@ -49,7 +50,7 @@ const TableComponent = (props: Props) => {
                     className=''
                     title=''
                     icon=''
-                    onClick={() => onDeleteClick(id)}
+                    onClick={() => onDeleteClick(index)}
                 >
                     <FontAwesomeIcon icon={faTrash}/>
                 </ButtonComponent>

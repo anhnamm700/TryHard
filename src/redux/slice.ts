@@ -264,16 +264,11 @@ const tableSlice = createSlice({
             
         },
         deleteRow: (state: any, action: any) => {
-
-            console.log(action.payload);
+            const indexTrans = Number(action.payload);
             
-            const id = Number(action.payload);
-            
-            state.transactions.splice(id, 1);
-            // state.transactions.slice(id - 1, id);
+            state.transactions.splice(indexTrans, 1);
             
             state.transactions = [...state.transactions];
-            
         }
     }
 });
