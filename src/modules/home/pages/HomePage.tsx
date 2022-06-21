@@ -19,17 +19,33 @@ const HomePage = () => {
   const [id, setId] = React.useState<string>('');
   const [target, setTarget] = React.useState<any>('');
   const [value, setValue] = React.useState<object>({});
+  const paniRef = React.useRef<any>(null);
+
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   const data = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
   const { transactions, searchs } = data;
 
+  
   const perPage = 6;
   const totalRow = search ? searchs.length : transactions.length;
-  let currentPage = 1;
-
+  paniRef.current = {
+    page: 1
+  }
+  
   const totalPage = Math.ceil(totalRow / perPage);
+
+  const currentPageNumber = (currentPage * perPage) - perPage;
+
+
+
+  const panigationSearchPosts = [...searchs]?.splice(currentPageNumber, perPage);
+  const panigationAllPosts = [...transactions].splice(currentPageNumber, perPage)
+  
+  // console.log(currentPageNumber + ' == ' + perPage);
+  // console.log([...transactions].splice(0, 6));
   
   
 
@@ -101,16 +117,8 @@ const HomePage = () => {
   }
 
   const handlePanigate = (e: any) => {
-    currentPage = e.target.textContent
-    console.log(currentPage);
+    setCurrentPage(Number(e.target.textContent));
   }
-
-  // React.useEffect(() => {
-  //   console.log(currentPage);
-    
-  // }, [currentPage]);
-
-  
 
   return (
     <div>
@@ -137,7 +145,7 @@ const HomePage = () => {
 
         <tbody>
           {
-            (search ? searchs : transactions)?.map((item: any, index: number) => (
+            (search ? panigationSearchPosts : panigationAllPosts)?.map((item: any, index: number) => (
               <TableComponent
                 key={index}
                 id={item.id}
